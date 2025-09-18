@@ -138,9 +138,3 @@ Hyperparameters tested:
 - **Best Custom CNN (Model 5)**: **84.6% F1**  
 - **Best Transfer Learning Model (EfficientNet)**: **98.7% accuracy**  
 - **Takeaway**: Transfer learning strongly outperforms small custom CNNs for this task.  
-
----
-
-## 👩‍💻 Author
-**Nina Barbarić**  
-📍 Zagreb, Croatia  
