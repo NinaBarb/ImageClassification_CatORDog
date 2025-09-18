@@ -1,148 +1,146 @@
-🐱🐶 Image Classification – Cat vs Dog
+# 🐱🐶 Image Classification – Cat vs Dog  
 
-This project explores binary image classification using Convolutional Neural Networks (CNNs) and state-of-the-art (SOTA) models. The task: given an image, predict whether it contains a cat or a dog.
+This project explores **binary image classification** using **Convolutional Neural Networks (CNNs)** and **state-of-the-art (SOTA) models**.  
+The task: given an image, predict whether it contains a **cat** or a **dog**.  
 
-The work includes building multiple custom CNNs, experimenting with hyperparameters, and comparing them with pretrained models such as ResNet50 and EfficientNet.
+The work includes building multiple custom CNNs, experimenting with hyperparameters, and comparing them with pretrained models such as **ResNet50** and **EfficientNet**.  
 
-📂 Contents
+---
 
-Introduction
+## 📂 Contents
+- [Introduction](#-introduction)  
+- [Dataset](#-dataset)  
+- [Preprocessing & Augmentation](#-preprocessing--augmentation)  
+- [Custom Models](#-custom-models)  
+  - **Model 1**: Baseline  
+  - **Model 2**: + Dropout  
+  - **Model 3**: Deeper CNN + Dropout(0.3)  
+  - **Model 4**: Higher LR (failed)  
+  - **Model 5**: Best Custom Model  
+- [Transfer Learning (SOTA Models)](#-transfer-learning-sota-models)  
+  - **ResNet50**  
+  - **EfficientNet**  
+- [Comparison of All Models](#-comparison-of-all-models)  
+- [Grid Search Experiment](#-grid-search-experiment)  
+- [Results](#-results)  
 
-Dataset
+---
 
-Preprocessing & Augmentation
+## 📖 Introduction
+This project applies **TensorFlow/Keras** for training CNNs on cat/dog datasets.  
 
-Custom Models
+- 5 **custom CNNs** (sequential models) were built incrementally.  
+- 2 **SOTA pretrained models** (ResNet50 & EfficientNet) were tested.  
+- **Evaluation metrics**: Accuracy, Precision, Recall, F1-score, Loss.  
 
-Model 1: Baseline
+---
 
-Model 2: + Dropout
+## 📊 Dataset
+**Kaggle Dataset**  
+- **24,998 images** (12,499 cats, 12,499 dogs)  
+- Train: 80% | Validation: 10% | Test: 10%  
 
-Model 3: Deeper CNN + Dropout(0.3)
+**Custom Dataset**  
+- **40 random Google images** (20 cats, 20 dogs)  
+- Train: 70% | Validation: 20% | Test: 10%  
 
-Model 4: Higher LR (failed)
+---
 
-Model 5: Best Custom Model
+## 🔧 Preprocessing & Augmentation
+- **Normalization**: pixel values scaled to `[0, 1]`  
+- **Resizing**: `224x224x3` (RGB)  
+- **Augmentations**:  
+  - Brightness (0.8–1.2)  
+  - Shear  
+  - Zoom (±30%)  
+  - Width & Height shifts (±20%)  
+  - Horizontal flip  
 
-Transfer Learning (SOTA)
+---
 
-ResNet50
+## 🧪 Custom Models
 
-EfficientNet
+### ✅ Model 1 – Baseline CNN  
+- **Validation Accuracy**: 75.3%  
+- **F1-score**: 75.7%  
 
-Comparison of All Models
+---
 
-Grid Search Experiment
+### ✅ Model 2 – + Dropout(0.5)  
+- **Validation Accuracy**: 74.6%  
+- **F1-score**: 74.3%  
 
-Results
+---
 
-📖 Introduction
+### ✅ Model 3 – Deeper CNN + Dropout(0.3)  
+- **Validation Accuracy**: 76.3%  
+- **F1-score**: 74.9%  
 
-This project applies TensorFlow/Keras for training CNNs on cat/dog datasets.
+---
 
-5 custom CNNs (sequential models) were built incrementally.
+### ❌ Model 4 – Higher LR (0.01)  
+- **Validation Accuracy**: ~50%  
+- **F1-score**: 0%  
+- → Model failed to converge.  
 
-2 SOTA pretrained models (ResNet50 & EfficientNet) were tested.
+---
 
-Evaluation metrics: Accuracy, Precision, Recall, F1-score, Loss.
+### 🏆 Model 5 – Best Custom Model (20 epochs)  
+- **Validation Accuracy**: 84.2%  
+- **F1-score**: 84.6%  
+- **Test Performance**: Balanced, strong generalization.  
+- Trained on **custom dataset** → achieved **100% accuracy** on test images.  
 
-📊 Dataset
-Kaggle Dataset
+---
 
-24,998 images (12,499 cats, 12,499 dogs)
+## 🚀 Transfer Learning (SOTA Models)
 
-Train: 80% | Validation: 10% | Test: 10%
+### ResNet50 (frozen backbone)  
+- **Validation Accuracy**: 89.6%  
+- **Precision**: 82.8%  
+- **Recall**: 100%  
+- → Great at catching positives, but over-predicts dogs.  
 
-Custom Dataset
+---
 
-40 random Google images (20 cats, 20 dogs)
+### EfficientNet (frozen backbone)  
+- **Validation Accuracy**: 98.7%  
+- **Very stable loss & accuracy**  
+- → **Best model overall** in this project.  
 
-Train: 70% | Validation: 20% | Test: 10%
+---
 
-🔧 Preprocessing & Augmentation
+## 📈 Comparison of All Models
+- **Custom CNNs**: Steady improvements, Model 5 best (F1 ~84%).  
+- **ResNet50**: Very strong but showed some overfitting.  
+- **EfficientNet**: Best performance overall with ~99% validation accuracy.  
 
-Normalization: pixel values scaled to [0, 1]
+---
 
-Resizing: 224x224x3 (RGB)
+## 🔍 Grid Search Experiment
+Hyperparameters tested:  
 
-Augmentations:
+- **Optimizer**: Adam / SGD  
+- **Learning rate**: 0.001 / 0.0001  
+- **Activation**: ReLU / LeakyReLU  
+- **Dropout**: 0.2 / 0.3  
+- **Pooling**: Max / Average  
 
-Brightness (0.8–1.2)
+📊 **Best setup**:  
+- Optimizer: **SGD**  
+- LR: **0.0001**  
+- Activation: **ReLU**  
+- Pooling: **Max**  
 
-Shear
+---
 
-Zoom (±30%)
+## 🏁 Results
+- **Best Custom CNN (Model 5)**: **84.6% F1**  
+- **Best Transfer Learning Model (EfficientNet)**: **98.7% accuracy**  
+- **Takeaway**: Transfer learning strongly outperforms small custom CNNs for this task.  
 
-Width & Height shifts (±20%)
+---
 
-Horizontal flip
-
-🧪 Custom Models
-✅ Model 1 – Baseline CNN
-
-Accuracy (Val): 75.3% | F1: 75.7%
-
-✅ Model 2 – + Dropout(0.5)
-
-Accuracy (Val): 74.6% | F1: 74.3%
-
-✅ Model 3 – Deeper CNN + Dropout(0.3)
-
-Accuracy (Val): 76.3% | F1: 74.9%
-
-❌ Model 4 – Higher LR (0.01)
-
-Accuracy stuck at ~50%, failed to converge.
-
-🏆 Model 5 – Best Custom Model (20 epochs)
-
-Accuracy (Val): 84.2% | F1: 84.6%
-
-Trained further on custom dataset, achieving 100% accuracy on test images.
-
-🚀 Transfer Learning (SOTA Models)
-ResNet50 (frozen backbone)
-
-Accuracy (Val): 89.6%
-
-Recall: 100%, Precision lower (~82.8%) → tendency to over-predict dogs
-
-EfficientNet (frozen backbone)
-
-Accuracy (Val): 98.7%
-
-Best overall performance, excellent generalization
-
-📈 Comparison of All Models
-
-Custom CNNs: gradually improved, best F1 ~84%
-
-ResNet50: high training accuracy but some overfitting
-
-EfficientNet: best overall → ~99% validation accuracy
-
-🔍 Grid Search Experiment
-
-Explored hyperparameters:
-
-Optimizer: Adam / SGD
-
-Learning rate: 0.001 / 0.0001
-
-Activation: ReLU / LeakyReLU
-
-Dropout: 0.2 / 0.3
-
-Pooling: Max / Average
-
-Evaluated via Validation F1-score
-
-Best setup: SGD + ReLU + low LR (0.0001)
-
-🏁 Results
-
-Best Custom CNN (Model 5): 84.6% F1
-
-Best Transfer Learning Model (EfficientNet): 98.7% accuracy
-
-Takeaway: Transfer learning strongly outperforms small custom CNNs for this task.
+## 👩‍💻 Author
+**Nina Barbarić**  
+📍 Zagreb, Croatia  
